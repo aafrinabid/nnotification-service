@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { ConflictException, Controller } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 import { EmailScheduleDto } from './emailSchedule.dto';
 import { NotificationService } from './notification.service';
@@ -8,7 +8,13 @@ export class NotificationController {
     constructor(private notificationService: NotificationService){}
     @GrpcMethod('NotificationService')
     sendNotification(emailSchedule: EmailScheduleDto){
-        return this.notificationService.scheduleEmail(emailSchedule)
+        try{
+
+            return this.notificationService.scheduleEmail(emailSchedule)
+        }catch(e){
+          console.log(e)            
+
+        }
   
     }
 }

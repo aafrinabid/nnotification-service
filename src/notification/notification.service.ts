@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, ConsoleLogger, Injectable } from '@nestjs/common';
 import { EmailService } from 'src/email/email.service';
 import { SchedulerRegistry } from '@nestjs/schedule';
 import { CronJob } from 'cron';
@@ -11,21 +11,30 @@ export class NotificationService {
     ){}
 
     scheduleEmail(emailSchedule:EmailScheduleDto) {
-        const date = new Date(emailSchedule.date)
-        const job = new CronJob(date,()=>{
-            this.emailService.sendMail({
-                to: emailSchedule.recipient,
-                subject: emailSchedule.subject,
-                text: emailSchedule.content,
-                from:'mohdaafrin@outlook.com'
-            })
-        });
-        this.scheduleRegistry.addCronJob(`${Date.now()} - ${emailSchedule.subject}`,job)
-        job.start()
-        this.scheduleRegistry.getCronJobs().forEach((job)=>{
+        try{
+            const date = new Date(emailSchedule.date)
+            const dateNow = new Date(Date.now())
+            if(date<dateNow) {
+                throw new ConflictException('this time is in the past')
+            }
+            const job = new CronJob(date,()=>{
+                this.emailService.sendMail({
+                    to: emailSchedule.recipient,
+                    subject: emailSchedule.subject,
+                    text: emailSchedule.content,
+                    from:'mohdaafrin@outlook.com'
+                })
+            });
+            this.scheduleRegistry.addCronJob(`${Date.now()} - ${emailSchedule.subject}`,job)
             job.start()
-        })
-        return {result:'email scheduled'}
+            this.scheduleRegistry.getCronJobs().forEach((job)=>{
+                job.start()
+            })
+            return {result:'email scheduled'}
+        }catch(e){
+            return {result:'date is wrong'}
+        }
+        
     }
 
 
