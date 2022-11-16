@@ -8,7 +8,7 @@ import {ConfigModule} from '@nestjs/config'
 
 
 @Module({
-  imports:[ScheduleModule.forRoot(), ConfigModule],
+  imports:[ConfigModule],
   controllers: [NotificationController],
   providers:[NotificationService,EmailService]
 })

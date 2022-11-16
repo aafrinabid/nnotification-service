@@ -12,15 +12,13 @@ export class NotificationService {
 
     scheduleEmail(emailSchedule:EmailScheduleDto) {
         const date = new Date(emailSchedule.date)
-        const cronDate = this.convertToCron(date)
-        console.log(cronDate)
-        const job = new CronJob(cronDate,()=>{
+        const job = new CronJob(date,()=>{
             this.emailService.sendMail({
                 to: emailSchedule.recipient,
                 subject: emailSchedule.subject,
                 text: emailSchedule.content,
                 from:'mohdaafrin@outlook.com'
-            }).then(res=>console.log(res))
+            })
         });
         this.scheduleRegistry.addCronJob(`${Date.now()} - ${emailSchedule.subject}`,job)
         job.start()
@@ -30,17 +28,7 @@ export class NotificationService {
         return {result:'email scheduled'}
     }
 
-    convertToCron(date:any){
-        const minutes = date.getMinutes();
-        const hours = date.getHours();
-        const days = date.getDate();
-        const months = date.getMonth() + 1;
-        const dayOfWeek = date.getDay();
-    
-        return `${minutes} ${hours} ${days} ${months} ${dayOfWeek}`;
-    
 
-    }
 }
 
 
