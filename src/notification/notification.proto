@@ -3,7 +3,7 @@ syntax = "proto3";
 package notification;
 
 service NotificationService {
-    rpc SendNotification (EmailSchedule) returns (ScheduledMessage) {}
+    rpc SendMail (EmailSchedule) returns (ScheduledMessage) {}
 }
 
 message EmailSchedule {

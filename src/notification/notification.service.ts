@@ -32,7 +32,7 @@ export class NotificationService {
             })
             return {result:'email scheduled'}
         }catch(e){
-            return {result:'date is wrong'}
+            return {result:e.response.message}
         }
         
     }

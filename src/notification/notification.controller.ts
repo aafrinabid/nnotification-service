@@ -6,10 +6,10 @@ import { NotificationService } from './notification.service';
 @Controller('notification')
 export class NotificationController {
     constructor(private notificationService: NotificationService){}
-    @GrpcMethod('NotificationService')
-    sendNotification(emailSchedule: EmailScheduleDto){
+    @GrpcMethod('NotificationService','SendMail')
+    sendMail(emailSchedule: EmailScheduleDto){
         try{
-
+            console.log('recieving')
             return this.notificationService.scheduleEmail(emailSchedule)
         }catch(e){
           console.log(e)            
