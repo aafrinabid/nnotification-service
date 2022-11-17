@@ -22,7 +22,17 @@ export class EmailService {
     })
  }
 
- sendMail(options:Mail.Options) {
-    return this.nodemailerTransport.sendMail(options)
+ async sendMail(options:Mail.Options) : Promise<boolean> {
+    try{
+          const result = await this.nodemailerTransport.sendMail(options)
+          if(result.rejected.length<1){
+            console.log(true)
+            return true
+          }else{
+            return false
+          }
+    }catch(e){
+        console.log(e)
+    }
  }
 }
