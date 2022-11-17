@@ -15,12 +15,13 @@ export class CronService {
         name:'notifications',
         timeZone:'Asia/Kolkata'
     })
-   async checkScheduledMessages(){
+   async checkScheduledMessages():Promise<void>{
+    try{
         const allPendingTask = await this.taskService.fetchAllPendingTasks()
         const currentDateAndTime = new Date
         allPendingTask.map(async(task) =>{
-            const remindetDate = new Date(task.reminderDate) 
-            if(remindetDate >= currentDateAndTime) {
+            const remindertDate = new Date(task.reminderDate) 
+            if(remindertDate >= currentDateAndTime) {
                 const emailDetails = {
                         to: task.assignedPerson,
                         subject: task.title,
@@ -36,6 +37,10 @@ export class CronService {
              }
             }
         })
+    }catch(e){
+        console.log(e)
+    }
+        
 
     }
     
