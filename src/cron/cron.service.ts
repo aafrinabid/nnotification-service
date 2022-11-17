@@ -15,7 +15,7 @@ export class CronService {
         name:'notifications',
         timeZone:'Asia/Kolkata'
     })
-   async checkScheduledMessages():Promise<void>{
+   async checkScheduledMails():Promise<void>{
     try{
         const allPendingTask = await this.taskService.fetchAllPendingTasks()
         const currentDateAndTime = new Date
