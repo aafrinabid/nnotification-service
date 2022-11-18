@@ -11,12 +11,12 @@ export class EmailService {
     private readonly configService: ConfigService
  ){
     this.nodemailerTransport = createTransport({
-        service:configService.get('emailService'),
+        service:this.configService.get('emailService'),
         port:587,
         host:'smtp.office365.com',
         auth:{
-            user: configService.get('user.email'),
-            pass: configService.get('user.password')
+            user: this.configService.get('user.email'),
+            pass: this.configService.get('user.password')
 }
 
     })

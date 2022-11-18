@@ -1,4 +1,4 @@
-import { AppDataSource } from "src/app-data-source";
+import { AppDataSource } from "../app-data-source";
 import { Task } from "./task.entity";
 
 export const TaskRepository = AppDataSource.getRepository(Task).extend({

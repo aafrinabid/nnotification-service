@@ -5,12 +5,16 @@ import {ConfigModule} from '@nestjs/config'
 import { CronModule } from './cron/cron.module';
 import { TaskModule } from './task/task.module';
 import configuration from './config/configuration';
+import {ConfigService} from '@nestjs/config'
 
 @Module({
   imports: [ConfigModule.forRoot({
     load: [configuration],
-    isGlobal:true,
-  }),ScheduleModule.forRoot(),NotificationModule, CronModule, TaskModule],
+    expandVariables:true,
+  }),ScheduleModule.forRoot(),
+  NotificationModule,
+  CronModule,
+  TaskModule],
   providers: [],
 })
 export class AppModule {}
