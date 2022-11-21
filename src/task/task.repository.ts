@@ -1,10 +1,11 @@
 import { AppDataSource } from "../app-data-source";
 import { Task } from "./task.entity";
+import {LessThan} from 'typeorm'
 
 export const TaskRepository = AppDataSource.getRepository(Task).extend({
-    async fetchAllPendingTasks(): Promise<Task[]> {
+    async fetchAllPendingTasks(date): Promise<Task[]> {
     try{
-        const pendingTasks = await Task.find({where:{emailSent:false}}) 
+        const pendingTasks = await Task.find({where:{emailSent:false, reminderDate: LessThan(date)}}) 
         return pendingTasks
     }catch(e){
         console.log(e)

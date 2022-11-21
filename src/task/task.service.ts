@@ -4,8 +4,8 @@ import { TaskRepository } from './task.repository';
 
 @Injectable()
 export class TaskService {
-    fetchAllPendingTasks(): Promise<Task[]>{
-        return TaskRepository.fetchAllPendingTasks()
+    fetchAllPendingTasks(date:Date): Promise<Task[]>{
+        return TaskRepository.fetchAllPendingTasks(date)
     }
 
     async updateEmailSentTastus(id:number) :Promise<boolean>{

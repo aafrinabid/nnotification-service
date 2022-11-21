@@ -17,11 +17,9 @@ export class CronService {
     })
    async checkScheduledMails():Promise<void>{
     try{
-        const allPendingTask = await this.taskService.fetchAllPendingTasks()
         const currentDateAndTime = new Date
+        const allPendingTask = await this.taskService.fetchAllPendingTasks(currentDateAndTime)
         allPendingTask.map(async(task) =>{
-            const remindertDate = new Date(task.reminderDate) 
-            if(remindertDate >= currentDateAndTime) {
                 const emailDetails = {
                         to: task.assignedPerson,
                         subject: task.title,
@@ -35,7 +33,6 @@ export class CronService {
                 return `email succesfully sent to ${task.assignedPerson}`
                }
              }
-            }
         })
     }catch(e){
         console.log(e)

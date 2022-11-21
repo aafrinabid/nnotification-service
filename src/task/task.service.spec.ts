@@ -22,7 +22,7 @@ describe('TaskService', () => {
   it('should fetch all pending task where is to be sent', async () =>{
     let fetchedList: Promise<Task[]>;
     jest.spyOn(mockRepositroy,'fetchAllPendingTasks').mockImplementation(()=>fetchedList)
-    expect(await service.fetchAllPendingTasks()).toBe(fetchedList)
+    expect(await service.fetchAllPendingTasks(new Date)).toBe(fetchedList)
   })
 
   it('should update status of task where mail is sent', async () => {

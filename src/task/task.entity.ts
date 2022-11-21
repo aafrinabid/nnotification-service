@@ -15,8 +15,8 @@ export class Task extends BaseEntity {
     assignedPerson: string;
 
     @Column()
-    reminderDate: string;
+    reminderDate: Date;
 
     @Column()
-    emailSent: boolean
+    emailSent: boolean;
 }
