@@ -26,7 +26,7 @@ export class CronService {
                         text: task.description,
                         from:'mohdaafrin@outlook.com'
                 }
-             const emailSent =  this.emailService.sendMail(emailDetails)
+             const emailSent = await this.emailService.sendMail(emailDetails)
              if(emailSent){
                const status = await this.taskService.updateEmailSentTastus(task.id)
                if(status){
