@@ -2,6 +2,7 @@ import { Repository, LessThan} from 'typeorm'
 import { Task } from './task.entity';
 
 export class TasksRepository extends Repository<Task>{
+    
     async FetchAllPendingTasks(date: Date): Promise<Task[]> {
         try {
             const pendingTasks = await Task.find({ where: { emailSent: false, reminderDate: LessThan(date) } })
