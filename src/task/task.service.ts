@@ -9,10 +9,9 @@ export class TaskService {
         @InjectRepository(TasksRepository)
         private readonly tasksRepository: TasksRepository
     ) { }
-    
+
     async fetchAllPendingTasks(date: Date): Promise<Task[]> {
         try {
-
             return await this.tasksRepository.FetchAllPendingTasks(date)
         } catch (e) {
             console.log(e)
