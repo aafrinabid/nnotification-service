@@ -18,7 +18,7 @@ export class EmailService {
                 user: this.configService.get('user.email'),
                 pass: this.configService.get('user.password')
             },
-            pool:true,
+            pool: true,
             maxConnections: 3
         })
     }
