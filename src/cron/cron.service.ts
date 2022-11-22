@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Cron, CronExpression ,Interval} from '@nestjs/schedule';
+import { Cron, CronExpression, Interval } from '@nestjs/schedule';
+import { stat } from 'fs';
 import { EmailService } from '../email/email.service';
 import { TaskService } from '../task/task.service';
 
@@ -9,38 +10,43 @@ export class CronService {
     constructor(
         private taskService: TaskService,
         private emailService: EmailService
-        ){}
-    
-    @Cron(CronExpression.EVERY_5_MINUTES,{
-        name:'notifications',
-        timeZone:'Asia/Kolkata'
-    })
-   async checkScheduledMails():Promise<void>{
-    try{
-        const currentDateAndTime = new Date
-        const allPendingTask = await this.taskService.fetchAllPendingTasks(currentDateAndTime)
-        allPendingTask.map(async(task) =>{
+    ) { }
+
+    @Cron('* * * * * *')
+    async checkScheduledMails(): Promise<void> {
+        try {
+            console.log('cron has started ')
+            const currentDateAndTime = new Date
+            console.log(currentDateAndTime)
+            const allPendingTask = await this.taskService.fetchAllPendingTasks(currentDateAndTime)
+            const result =await Promise.all (allPendingTask.map(async (task) => {
                 const emailDetails = {
-                        to: task.assignedPerson,
-                        subject: task.title,
-                        text: task.description,
-                        from:'mohdaafrin@outlook.com'
+                    to: task.assignedPerson,
+                    subject: task.title,
+                    text: task.description,
+                    from: 'mohdaafrin@outlook.com'
                 }
-             const emailSent = await this.emailService.sendMail(emailDetails)
-             if(emailSent){
-               const status = await this.taskService.updateEmailSentTastus(task.id)
-               if(status){
-                return `email succesfully sent to ${task.assignedPerson}`
-               }
-             }
-        })
-    }catch(e){
-        console.log(e)
+                const emailSent = await this.emailService.sendMail(emailDetails)
+                if (emailSent) {
+                    const status = await this.taskService.updateEmailSentTastus(task.id)
+                    console.log(status,'status')
+                    if (status) {
+                        return `email successfully to ${task.assignedPerson}`
+                    }else {
+                        return  `email not send successfully to ${task.assignedPerson}`
+                    }
+                }else{
+                    return  `email not send successfully to ${task.assignedPerson}`
+                }
+            }))
+            console.log( result)
+        } catch (e) {
+            console.log(e)
+        }
     }
-        
 
+    @Cron('* * * * * *')
+    async sample() {
+        this.logger.debug('running cron')
     }
-    
-
-
 }

@@ -8,20 +8,21 @@ export class TaskService {
     constructor(
         @InjectRepository(TasksRepository)
         private readonly tasksRepository: TasksRepository
-    ){}
-    async fetchAllPendingTasks(date:Date): Promise<Task[]>{
-        try{
+    ) { }
+    
+    async fetchAllPendingTasks(date: Date): Promise<Task[]> {
+        try {
 
             return await this.tasksRepository.FetchAllPendingTasks(date)
-        }catch(e){
+        } catch (e) {
             console.log(e)
         }
     }
 
-    async updateEmailSentTastus(id:number) :Promise<boolean>{
-        try{
+    async updateEmailSentTastus(id: number): Promise<boolean> {
+        try {
             return await this.tasksRepository.UpdateEmailSentStatus(id)
-        }catch(e){
+        } catch (e) {
             console.log(e)
         }
     }

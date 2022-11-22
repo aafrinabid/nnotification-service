@@ -1,13 +1,11 @@
 import { Module } from '@nestjs/common';
-import { EmailService } from 'src/email/email.service';
-import { TaskService } from 'src/task/task.service';
-import { TasksRepository } from 'src/task/tasks.repository';
 import { CronService } from './cron.service';
-import {ConfigModule} from '@nestjs/config'
-
+import { TaskModule } from 'src/task/task.module';
+import { EmailModule } from 'src/email/email.module';
 
 @Module({
-  imports:[ConfigModule],
-  providers: [CronService,TaskService,EmailService, TasksRepository]
+  imports:[TaskModule, EmailModule ],
+  providers: [CronService],
+  exports:[CronService]
 })
 export class CronModule {}
