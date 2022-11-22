@@ -19,4 +19,5 @@ import { typeOrmConfig } from './config/typeorm.config';
   CronModule,
   TaskModule],
 })
+
 export class AppModule {}

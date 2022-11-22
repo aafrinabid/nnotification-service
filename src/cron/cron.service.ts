@@ -1,6 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression, Interval } from '@nestjs/schedule';
-import { stat } from 'fs';
 import { EmailService } from '../email/email.service';
 import { TaskService } from '../task/task.service';
 
