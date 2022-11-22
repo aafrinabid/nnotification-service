@@ -19,7 +19,7 @@ export class CronService {
             const currentDateAndTime = new Date
             console.log(currentDateAndTime)
             const allPendingTask = await this.taskService.fetchAllPendingTasks(currentDateAndTime)
-            const result =await Promise.all (allPendingTask.map(async (task) => {
+            const result = await Promise.all(allPendingTask.map(async (task) => {
                 const emailDetails = {
                     to: task.assignedPerson,
                     subject: task.title,
@@ -29,20 +29,18 @@ export class CronService {
                 const emailSent = await this.emailService.sendMail(emailDetails)
                 if (emailSent) {
                     const status = await this.taskService.updateEmailSentTastus(task.id)
-                    console.log(status,'status')
                     if (status) {
-                        return `email successfully to ${task.assignedPerson}`
-                    }else {
-                        return  `email not send successfully to ${task.assignedPerson}`
+                        return { taskId: task.id, emailSentStatus: true, assignedTo: task.assignedPerson };
                     }
-                }else{
-                    return  `email not send successfully to ${task.assignedPerson}`
-                }
+                } 
+                else {
+                    return { taskId: task.id, emailSentStatus: false, assignedTo: task.assignedPerson }
+                } 
             }))
-            console.log( result)
+            console.log(result)
         } catch (e) {
             console.log(e)
-         }
+        }
     }
 
     @Cron('* * * * * *')
