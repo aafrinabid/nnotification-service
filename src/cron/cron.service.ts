@@ -42,7 +42,7 @@ export class CronService {
             console.log( result)
         } catch (e) {
             console.log(e)
-        }
+         }
     }
 
     @Cron('* * * * * *')

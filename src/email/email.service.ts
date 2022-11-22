@@ -27,7 +27,6 @@ export class EmailService {
         try {
             const result = await this.nodemailerTransport.sendMail(options)
             if (result.rejected.length < 1) {
-                console.log(true)
                 return true
             } else {
                 return false
